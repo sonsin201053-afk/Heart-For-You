@@ -3,33 +3,39 @@
 <head>
     <style>
         body { 
-            background: #000; color: #fff; font-family: 'Arial', sans-serif;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            min-height: 100vh; margin: 0; text-align: center;
+            background: #121212; /* สีดำสไตล์แฮ็กเกอร์ */
+            color: #ff4757; /* สีแดงแบบเจ็บๆ */
+            display: flex; justify-content: center; align-items: center; 
+            height: 100vh; margin: 0; font-family: 'Arial', sans-serif;
+            overflow: hidden; /* กันไม่ให้ข้อความล้นจอตอนมันเลื่อน */
         }
-        .heart {
-            width: 50px; height: 50px; background: #ff69b4; position: relative;
-            transform: rotate(-45deg); animation: beat 1.5s infinite; margin-bottom: 30px;
+        .lyrics { 
+            font-size: 24px; font-weight: bold;
+            text-align: center;
+            animation: slideInOut 5s forwards; /* สั่งให้เลื่อนเข้า-ออกใน 5 วินาที */
         }
-        .heart::before, .heart::after {
-            content: ""; width: 50px; height: 50px; background: #ff69b4;
-            border-radius: 50%; position: absolute;
-        }
-        .heart::before { top: -25px; left: 0; }
-        .heart::after { top: 0; left: 25px; }
 
-        @keyframes beat { 0%, 100% { transform: rotate(-45deg) scale(1); } 50% { transform: rotate(-45deg) scale(1.2); } }
-        
-        .lyrics { font-size: 20px; line-height: 2; animation: fadeIn 3s ease-in; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideInOut {
+            0% { transform: translateX(-100%); opacity: 0; } /* เลื่อนเข้ามาจากซ้าย */
+            20% { transform: translateX(0); opacity: 1; }    /* ค้างไว้ */
+            80% { transform: translateX(0); opacity: 1; }    /* ค้างไว้ */
+            100% { transform: translateX(100%); opacity: 0; } /* เลื่อนออกไปทางขวา */
+        }
     </style>
 </head>
 <body>
-    <div class="heart"></div>
+
     <div class="lyrics">
-        <p>ได้โปรด... อย่าปล่อยมือจากฉันไป</p>
-        <p>ได้โปรด... อย่าทำให้ฉันต้องเสียใจ</p>
-        <p>PLEASE - Atom ชนกันต์</p>
+        ถ้าเธอต้องเลือกระหว่างเขาและฉัน<br>
+        ถ้าเป็นอย่างนั้น... ก็ไม่ต้องเลือกฉันเลย
     </div>
+
+    <script>
+        // รอ 5 วินาที (เท่ากับเวลาอนิเมชั่น) แล้วเด้งไป YouTube
+        setTimeout(() => {
+            window.location.href = "https://www.youtube.com/results?search_query=ILLSLICK+ถ้าเธอต้องเลือก";
+        }, 5000);
+    </script>
+
 </body>
 </html>
