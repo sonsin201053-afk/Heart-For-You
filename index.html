@@ -3,38 +3,34 @@
 <head>
     <style>
         body { 
-            background: #121212; /* สีดำสไตล์แฮ็กเกอร์ */
-            color: #ff4757; /* สีแดงแบบเจ็บๆ */
-            display: flex; justify-content: center; align-items: center; 
-            height: 100vh; margin: 0; font-family: 'Arial', sans-serif;
-            overflow: hidden; /* กันไม่ให้ข้อความล้นจอตอนมันเลื่อน */
+            background: #000; 
+            color: #d4af37; /* สีทองๆ แบบเชยๆ แต่อมตะ */
+            display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; 
+            height: 100vh; margin: 0; 
+            font-family: 'Courier New', Courier, monospace; /* ฟอนต์เครื่องพิมพ์ดีดดูเชยๆ เท่ดี */
         }
-        .lyrics { 
-            font-size: 24px; font-weight: bold;
-            text-align: center;
-            animation: slideInOut 5s forwards; /* สั่งให้เลื่อนเข้า-ออกใน 5 วินาที */
+        h1 { letter-spacing: 5px; margin-bottom: 40px; }
+        .btn { 
+            padding: 20px 50px; font-size: 20px; cursor: pointer; 
+            background: transparent; border: 2px solid #d4af37; 
+            color: #d4af37; font-family: 'Courier New', monospace;
+            text-transform: uppercase; transition: 0.4s;
         }
-
-        @keyframes slideInOut {
-            0% { transform: translateX(-100%); opacity: 0; } /* เลื่อนเข้ามาจากซ้าย */
-            20% { transform: translateX(0); opacity: 1; }    /* ค้างไว้ */
-            80% { transform: translateX(0); opacity: 1; }    /* ค้างไว้ */
-            100% { transform: translateX(100%); opacity: 0; } /* เลื่อนออกไปทางขวา */
-        }
+        .btn:hover { background: #d4af37; color: #000; box-shadow: 0 0 20px #d4af37; }
     </style>
 </head>
 <body>
 
-    <div class="lyrics">
-        ถ้าเธอต้องเลือกระหว่างเขาและฉัน<br>
-        ถ้าเป็นอย่างนั้น... ก็ไม่ต้องเลือกฉันเลย
-    </div>
+    <h1>ILLSLICK</h1>
+    
+    <button class="btn" onclick="startPlay()">กดเพื่อเริ่มฟัง ILLSLICK</button>
 
     <script>
-        // รอ 5 วินาที (เท่ากับเวลาอนิเมชั่น) แล้วเด้งไป YouTube
-        setTimeout(() => {
-            window.location.href = "https://www.youtube.com/results?search_query=ILLSLICK+ถ้าเธอต้องเลือก";
-        }, 5000);
+        function startPlay() {
+            // เมื่อกดปุ่ม จะเด้งไปหน้า YouTube รวมเพลงพี่อิลแบบยาวๆ เลยครับ
+            window.location.href = "https://www.youtube.com/results?search_query=ILLSLICK+เชยๆ";
+        }
     </script>
 
 </body>
