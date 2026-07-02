@@ -1,41 +1,65 @@
 <!DOCTYPE html>
-<html lang="th">
+<html>
 <head>
-    <style>
-        body { background: #121212; color: #00ff41; font-family: 'Courier New', monospace; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-        #wheel-container { width: 300px; height: 100px; border: 3px solid #333; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; background: #1e1e1e; box-shadow: 0 0 15px rgba(0, 255, 65, 0.2); }
-        #wheel { display: flex; transition: transform 3s cubic-bezier(0.1, 0, 0, 1); }
-        .number { min-width: 300px; text-align: center; font-size: 3rem; font-weight: bold; }
-        button { margin-top: 20px; padding: 10px 25px; cursor: pointer; background: #00ff41; color: #000; border: none; font-weight: bold; }
-    </style>
+    <style>body { margin: 0; overflow: hidden; background: #000; }</style>
 </head>
 <body>
-    <div id="wheel-container">
-        <div id="wheel">
-            <div id="result" class="number">??</div>
-        </div>
-    </div>
-    <button onclick="spin()">เริ่มการสุ่ม</button>
+    <script type="module">
+        import * as THREE from 'https://cdn.skypack.dev/three@0.136.0';
 
-    <script>
-        function spin() {
-            const wheel = document.getElementById('wheel');
-            const result = document.getElementById('result');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // 1. หลุมดำตรงกลาง (Black Hole)
+        const core = new THREE.Mesh(new THREE.SphereGeometry(2.5, 64, 64), new THREE.MeshBasicMaterial({ color: 0x000000 }));
+        scene.add(core);
+
+        // 2. เอฟเฟกต์แสงรอบๆ (Glow)
+        const glow = new THREE.Mesh(new THREE.SphereGeometry(2.7, 64, 64), new THREE.MeshBasicMaterial({ color: 0xff4500, transparent: true, opacity: 0.2, side: THREE.BackSide }));
+        scene.add(glow);
+
+        // 3. วงแหวนพลังงาน (Energy Disks - 5000 points)
+        const count = 5000;
+        const geometry = new THREE.BufferGeometry();
+        const positions = new Float32Array(count * 3);
+        const colors = new Float32Array(count * 3);
+
+        for (let i = 0; i < count; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const dist = 3 + Math.random() * 4;
+            positions[i*3] = Math.cos(angle) * dist;
+            positions[i*3+1] = (Math.random() - 0.5) * 0.3;
+            positions[i*3+2] = Math.sin(angle) * dist;
             
-            // สุ่มเลขที่ 1-40 แบบยุติธรรม
-            const finalNumber = Math.floor(Math.random() * 40) + 1;
-            
-            // อนิเมชั่นเลขวิ่งหลอกๆ ก่อนหยุด
-            let count = 0;
-            let interval = setInterval(() => {
-                result.innerText = Math.floor(Math.random() * 40) + 1;
-                count++;
-                if(count > 20) {
-                    clearInterval(interval);
-                    result.innerText = finalNumber; // แสดงผลจริง
-                }
-            }, 100);
+            // สีสุ่มระหว่าง ส้ม-เหลือง-ขาว
+            colors[i*3] = 1.0;
+            colors[i*3+1] = 0.5 + Math.random() * 0.5;
+            colors[i*3+2] = 0.0;
         }
+
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        
+        const mat = new THREE.PointsMaterial({ size: 0.05, vertexColors: true, transparent: true, opacity: 0.9 });
+        const particles = new THREE.Points(geometry, mat);
+        scene.add(particles);
+
+        camera.position.set(0, 3, 10);
+        camera.lookAt(0, 0, 0);
+
+        function animate(t) {
+            requestAnimationFrame(animate);
+            // หมุนแก๊ส
+            particles.rotation.y += 0.005;
+            // เอฟเฟกต์หายใจของหลุมดำ
+            const scale = 1 + Math.sin(t * 0.005) * 0.05;
+            glow.scale.set(scale, scale, scale);
+            renderer.render(scene, camera);
+        }
+        animate();
     </script>
 </body>
 </html>
