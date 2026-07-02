@@ -1,9 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="th">
 <head>
-    <title>เว็ปกากๆ Tab</title>
+    <style>
+        body { background: #1a1a1a; color: #fff; font-family: 'Courier New', monospace; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
+        #wheel { font-size: 5rem; font-weight: bold; color: #f1c40f; border: 5px solid #333; padding: 20px; border-radius: 10px; box-shadow: 0 0 20px #f1c40f; }
+        button { margin-top: 30px; padding: 15px 30px; font-size: 1.2rem; cursor: pointer; background: #2ecc71; border: none; color: white; border-radius: 5px; }
+    </style>
 </head>
 <body>
-    
+    <div id="wheel">??</div>
+    <button onclick="spin()">สุ่มเลขที่หรรษา</button>
+
+    <script>
+        function spin() {
+            let wheel = document.getElementById('wheel');
+            let counter = 0;
+            let interval = setInterval(() => {
+                wheel.innerText = Math.floor(Math.random() * 40) + 1;
+                counter++;
+                if(counter > 20) { // จังหวะสุ่ม 20 ครั้งแล้วค่อยหยุด
+                    clearInterval(interval);
+                    // ปั่นประสาท: สุ่มเลข 11 แต่ถ้าดวงซวย ให้มันเด้งไป 32!
+                    let final = Math.random() > 0.8 ? 32 : 11;
+                    wheel.innerText = final;
+                }
+            }, 100);
+        }
+    </script>
 </body>
 </html>
